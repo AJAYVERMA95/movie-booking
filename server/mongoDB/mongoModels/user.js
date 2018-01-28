@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import uniqueValidator from 'mongoose-unique-validator';
 
 const UserSchema = new mongoose.Schema({
     Email: {
@@ -41,4 +42,9 @@ UserSchema.methods.toValidAuthJSON = function () {
     }
 }
 
+UserSchema.methods.setPassword = function (password) {
+    this.PasswordHash = bcrypt.hashSync(password,10);
+}
+
+UserSchema.plugin(uniqueValidator);
 export default mongoose.model("User", UserSchema);

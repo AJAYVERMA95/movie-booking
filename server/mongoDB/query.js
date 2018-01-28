@@ -11,10 +11,26 @@ mongoose.connect(process.env.MONGODB_URL, {
     autoReconnect: true
 });
 
+export const createUser = ({ email, password }) => {
+    const newUser = new User({
+        Email: email
+    });
+    console.log(newUser);
+    
+    newUser.setPassword(password);
+    return newUser.save();
+}
+
 export const searchMovie = (title) => {
-    return Movie.find({Title:new RegExp(title,'i')}).limit(10).sort({Rank:1});
+    return Movie.find({
+        Title: new RegExp(title, 'i')
+    }).limit(10).sort({
+        Rank: 1
+    });
 }
 
 export const findUserByEmail = (Email) => {
-    return User.findOne({Email});
+    return User.findOne({
+        Email
+    });
 }

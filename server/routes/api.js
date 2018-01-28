@@ -1,9 +1,10 @@
 import express from 'express';
 const router = express.Router();
-import bcrypt from 'bcrypt';
+
 import {
     searchMovie,
-    findUserByEmail
+    findUserByEmail,
+    createUser
 } from '../mongoDB/query';
 
 router.get('/search', (req, res) => {
@@ -17,6 +18,25 @@ router.get('/search', (req, res) => {
             message: err //"MOVIE COLLECTION ERROR..."
         });
     });;
+});
+
+router.post('/auth/signup', (req, res) => {
+    const {
+        email,
+        password
+    } = req.body;
+    createUser({
+            email,
+            password
+        }).then((userRecord) => {
+            res.status(200).json(userRecord.toValidAuthJSON());
+        })
+        .catch((error) => {
+            res.status(400).json({
+                message: error
+            }); //email already taken
+        });
+
 });
 
 router.post('/auth/login', (req, res) => {
