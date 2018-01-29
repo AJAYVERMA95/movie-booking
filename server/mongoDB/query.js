@@ -1,8 +1,9 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-import Movie from './mongoModels/movie';
-import User from './mongoModels/user';
+import Movie from "./mongoModels/movie";
+import User from "./mongoModels/user";
+import Review from "./mongoModels/review";
 dotenv.config();
 
 mongoose.connect(process.env.MONGODB_URL, {
@@ -16,21 +17,25 @@ export const createUser = ({ email, password }) => {
         Email: email
     });
     console.log(newUser);
-    
+
     newUser.setPassword(password);
     return newUser.save();
-}
+};
 
-export const searchMovie = (title) => {
-    return Movie.find({
-        Title: new RegExp(title, 'i')
-    }).limit(10).sort({
-        Rank: 1
-    });
-}
+export const searchMovie = title => {
+    return Movie.find({ Title: new RegExp(title, "i") })
+        .limit(10)
+        .sort({
+            Rank: 1
+        });
+};
 
-export const findUserByEmail = (Email) => {
+export const findUserByEmail = Email => {
     return User.findOne({
         Email
     });
-}
+};
+
+export const findReviewByMovie = Movie => {
+    return Review.find({ Movie }).limit(10);
+};
