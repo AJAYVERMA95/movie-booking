@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import Movie from "./mongoModels/movie";
 import User from "./mongoModels/user";
 import Review from "./mongoModels/review";
+import Theatre from "./mongoModels/theatre";
 dotenv.config();
 
 mongoose.connect(process.env.MONGODB_URL, {
@@ -38,4 +39,8 @@ export const findUserByEmail = Email => {
 
 export const findReviewByMovie = Movie => {
     return Review.find({ Movie }).limit(10);
+};
+
+export const findShowByMovie = Movie => {
+    return Theatre.find({ "Movie.Name": Movie });
 };

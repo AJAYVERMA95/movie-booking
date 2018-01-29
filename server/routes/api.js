@@ -5,12 +5,13 @@ import {
     searchMovie,
     findUserByEmail,
     createUser,
-    findReviewByMovie
+    findReviewByMovie,
+    findShowByMovie
 } from "../mongoDB/query";
 
 router.get("/search", (req, res) => {
     const { title } = req.query;
-    
+
     searchMovie(title)
         .then(movieList => {
             if (movieList.length) res.status(200).json(movieList);
@@ -67,6 +68,20 @@ router.get("/review/:movie", (req, res) => {
         .catch(err => {
             res.status(404).json({
                 message: err //"REVIEW COLLECTION ERROR..."
+            });
+        });
+});
+
+router.get("/shows/:movie", (req, res) => {
+    const movie = req.params.movie;
+
+    findShowByMovie(movie)
+        .then(showList => {
+            res.status(200).json(showList);
+        })
+        .catch(err => {
+            res.status(404).json({
+                message: err //"THEATRE COLLECTION ERROR..."
             });
         });
 });

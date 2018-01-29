@@ -4,7 +4,7 @@ const ReviewSchema = new mongoose.Schema({
     Movie: String,
     UserReviews: [
         {
-            Email: {
+            By: {
                 type: String,
                 required: true,
                 lowercase: true
