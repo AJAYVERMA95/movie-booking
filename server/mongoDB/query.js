@@ -44,3 +44,32 @@ export const findReviewByMovie = Movie => {
 export const findShowByMovie = Movie => {
     return Theatre.find({ "Movie.Name": Movie });
 };
+
+export const getSeatDoc = (TheatreName, MovieName, ShowTime) => {
+    return Theatre.find({
+        Name: TheatreName,
+        Movie: MovieName,
+        ShowTime: ShowTime
+    });
+};
+
+export const decreaseSeatCount = (_id, seat) => {
+    return Theatre.update({ _id }, { Seat: seat - 1 });
+};
+
+export const updateUserBookings = (Email, theatreInfo) => {
+    const bookingDoc = {
+        TheatreName: theatreInfo.Name,
+        Movie: theatreInfo.Movie,
+        ShowTime: theatreInfo.ShowTime,
+        Seat: theatreInfo.Seat,
+        Price: theatreInfo.Price,
+        Date: Date()
+    };
+
+    return User.findOneAndUpdate(
+        { Email },
+        { $push: { Bookings: bookingDoc } },
+        { new: true }
+    );
+};

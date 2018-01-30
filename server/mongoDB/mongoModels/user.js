@@ -21,6 +21,7 @@ const UserSchema = new mongoose.Schema({
             TheatreName: String,
             ShowTime: String,
             Price: Number,
+            Seat: Number,
             Date: Date
         }
     ]

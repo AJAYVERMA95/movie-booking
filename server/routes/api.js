@@ -6,7 +6,10 @@ import {
     findUserByEmail,
     createUser,
     findReviewByMovie,
-    findShowByMovie
+    findShowByMovie,
+    getSeatDoc,
+    decreaseSeatCount,
+    updateUserBookings
 } from "../mongoDB/query";
 
 router.get("/search", (req, res) => {
@@ -78,6 +81,45 @@ router.get("/shows/:movie", (req, res) => {
     findShowByMovie(movie)
         .then(showList => {
             res.status(200).json(showList);
+        })
+        .catch(err => {
+            res.status(404).json({
+                message: err //"THEATRE COLLECTION ERROR..."
+            });
+        });
+});
+
+router.post("/book", (req, res) => {
+    const { email, movie, theatre, showTime } = req.body;
+
+    getSeatDoc(theatre, movie, showTime)
+        .then(doc => {
+            // console.log(doc);
+            if (!doc.length)
+                res.status(400).json({
+                    message: "BAD DATA"
+                });
+            else {
+                const { _id, Seat } = doc[0];
+                if (Seat > 0) {
+                    decreaseSeatCount(_id, Seat).catch(error => {
+                        console.log(error);
+                    });
+                    updateUserBookings(email, doc[0])
+                        .then(updoc => {
+                            res.status(200).json({
+                                message: "Congrats...Movie Booked"
+                            });
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                } else {
+                    res.status(400).json({
+                        message: "FULLY BOOKED"
+                    });
+                }
+            }
         })
         .catch(err => {
             res.status(404).json({
