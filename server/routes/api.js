@@ -35,7 +35,7 @@ router.post("/auth/signup", (req, res) => {
 
     createUser({ email, password })
         .then(userRecord => {
-            res.status(200).json(userRecord.toValidAuthJSON());
+            res.status(200).json({ user: userRecord.toValidAuthJSON() });
         })
         .catch(error => {
             res.status(400).json({ message: error }); //email already taken
@@ -43,15 +43,15 @@ router.post("/auth/signup", (req, res) => {
 });
 
 router.post("/auth/login", (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body.credentials;
 
     findUserByEmail(email)
         .then(aUser => {
             if (aUser && aUser.isValidPassword(password))
-                res.status(200).json(aUser.toValidAuthJSON());
+                res.status(200).json({ user: aUser.toValidAuthJSON() });
             else
                 res.status(400).json({
-                    message: "USER NOT PRESENT..."
+                    message: "INVALID CREDENTIALS...!!"
                 });
         })
         .catch(error => {
