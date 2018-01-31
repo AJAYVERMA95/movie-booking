@@ -7,15 +7,21 @@ import { logout } from "../../redux/auth/logout";
 const HomePage = props => {
     return (
         <div>
-            <h1>Home HomePage</h1>
+            <h1>MOVIE BOOKING HOME PAGE</h1>
             {props.isAuthenticated ? (
                 <Button primary onClick={props.logout}>
                     Logout
                 </Button>
             ) : (
                 <div>
-                    <Link to="/login">LOGIN</Link> OR
-                    <Link to="/signup"> SIGN UP</Link>
+                    <Button secondary>
+                        {" "}
+                        <Link to="/login">LOGIN</Link>
+                    </Button>{" "}
+                    OR{" "}
+                    <Button secondary>
+                        <Link to="/signup"> SIGN UP</Link>
+                    </Button>
                 </div>
             )}
         </div>

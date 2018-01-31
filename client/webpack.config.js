@@ -25,7 +25,7 @@ const config = {
     devServer: {
         // proxy URLs to backend development server
         proxy: {
-            "/api/auth": "http://localhost:3000"
+            "/api": "http://localhost:3000"
         }
     }
 };

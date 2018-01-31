@@ -7,9 +7,11 @@ import HomePage from "./components/pages/HomePage.jsx";
 import LoginPage from "./components/pages/LoginPage.jsx";
 import DashboardPage from "./components/pages/DashboardPage.jsx";
 import SignupPage from "./components/pages/SignupPage.jsx";
+import MovieInfoPage from "./components/pages/MovieInfoPage.jsx";
 
 import UserRoute from "./components/routes/UserRoute.jsx";
 import GuestRoute from "./components/routes/GuestRoute.jsx";
+import Search from "./components/Search.jsx";
 
 import store from "./redux/store.js";
 import userLoggedIn from "./redux/actions/userLoggedIn";
@@ -22,26 +24,37 @@ if (localStorage.userJWToken) {
 }
 
 const App = ({ location }) => (
-    <div className="ui container">
-        <Route location={location} path="/" exact component={HomePage} />
-        <GuestRoute
-            location={location}
-            path="/login"
-            exact
-            component={LoginPage}
-        />
-        <GuestRoute
-            location={location}
-            path="/signup"
-            exact
-            component={SignupPage}
-        />
-        <UserRoute
-            location={location}
-            path="/dashboard"
-            exact
-            component={DashboardPage}
-        />
+    <div>
+        <div className="ui container">
+            <div>
+                <Search />
+            </div>
+            <Route location={location} path="/" exact component={HomePage} />
+            <GuestRoute
+                location={location}
+                path="/login"
+                exact
+                component={LoginPage}
+            />
+            <GuestRoute
+                location={location}
+                path="/signup"
+                exact
+                component={SignupPage}
+            />
+            <GuestRoute
+                location={location}
+                path="/movie/info"
+                exact
+                component={MovieInfoPage}
+            />
+            <UserRoute
+                location={location}
+                path="/dashboard"
+                exact
+                component={DashboardPage}
+            />
+        </div>
     </div>
 );
 

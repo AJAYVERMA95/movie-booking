@@ -17,7 +17,7 @@ router.get("/search", (req, res) => {
 
     searchMovie(title)
         .then(movieList => {
-            if (movieList.length) res.status(200).json(movieList);
+            if (movieList.length) res.status(200).json({result:movieList});
             else
                 res.status(400).json({
                     message: "NO SUCH MOVIE EXISTS...!!"
