@@ -3,11 +3,9 @@ import { connect } from "react-redux";
 import { List } from "semantic-ui-react";
 
 const DashboardPage = props => {
-    console.log(props.user);
-
     return (
         <div>
-            <List celled>
+            <List>
                 {props.user.bookings.map(record => {
                     return (
                         <ul key={record["_id"]}>

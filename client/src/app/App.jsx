@@ -6,6 +6,9 @@ import { Provider } from "react-redux";
 import HomePage from "./components/pages/HomePage.jsx";
 import LoginPage from "./components/pages/LoginPage.jsx";
 import DashboardPage from "./components/pages/DashboardPage.jsx";
+import UserRoute from "./components/routes/UserRoute.jsx";
+import GuestRoute from "./components/routes/GuestRoute.jsx";
+
 import store from "./redux/store.js";
 import userLoggedIn from "./redux/actions/userLoggedIn";
 
@@ -16,18 +19,29 @@ if (localStorage.userJWToken) {
     store.dispatch(userLoggedIn(user));
 }
 
-const App = () => {
-    return (
-        <Provider store={store}>
-            <Router>
-                <div className="ui container">
-                    <Route path="/" exact component={HomePage} />
-                    <Route path="/login" exact component={LoginPage} />
-                    <Route path="/dashboard" exact component={DashboardPage} />
-                </div>
-            </Router>
-        </Provider>
-    );
-};
+const App = ({ location }) => (
+    <div className="ui container">
+        <Route location={location} path="/" exact component={HomePage} />
+        <GuestRoute
+            location={location}
+            path="/login"
+            exact
+            component={LoginPage}
+        />
+        <UserRoute
+            location={location}
+            path="/dashboard"
+            exact
+            component={DashboardPage}
+        />
+    </div>
+);
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(
+    <Provider store={store}>
+        <Router>
+            <Route component={App} />
+        </Router>
+    </Provider>,
+    document.getElementById("app")
+);
