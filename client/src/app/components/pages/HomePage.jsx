@@ -1,27 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { Button } from "semantic-ui-react";
+import { Button, Message } from "semantic-ui-react";
 import { logout } from "../../redux/auth/logout";
 
 const HomePage = props => {
     return (
         <div>
-            <h1>MOVIE BOOKING HOME PAGE</h1>
+            <Message info>
+                <Message.Header>
+                    <h1>MOVIE BOOKING HOME PAGE</h1>
+                </Message.Header>
+            </Message>
+
             {props.isAuthenticated ? (
                 <Button primary onClick={props.logout}>
                     Logout
                 </Button>
             ) : (
                 <div>
-                    <Button secondary>
-                        {" "}
-                        <Link to="/login">LOGIN</Link>
-                    </Button>{" "}
+                    <Link to="/login">
+                        <Button secondary>LOGIN</Button>
+                    </Link>{" "}
                     OR{" "}
-                    <Button secondary>
-                        <Link to="/signup"> SIGN UP</Link>
-                    </Button>
+                    <Link to="/signup">
+                        <Button secondary>SIGN UP</Button>
+                    </Link>
                 </div>
             )}
         </div>

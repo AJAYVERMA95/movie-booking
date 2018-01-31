@@ -61,13 +61,10 @@ class SearchComponent extends React.Component {
 
         return (
             <div>
+                <br />
                 {this.state.redirect && <Redirect push to="/movie/info" />}
                 <Grid>
                     <Grid.Column width={8}>
-                        <br />
-                        <br />
-                        <br />
-
                         <Search
                             loading={isLoading}
                             onResultSelect={this.handleResultSelect}
@@ -77,9 +74,12 @@ class SearchComponent extends React.Component {
                             showNoResults={true}
                             fluid={true}
                             resultRenderer={this.viewItem}
+                            {...this.props}
                         />
                     </Grid.Column>
                 </Grid>
+                <br />
+                <br />
             </div>
         );
     }

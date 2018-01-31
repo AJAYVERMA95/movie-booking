@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { List, Button } from "semantic-ui-react";
+import { List, Button, Message } from "semantic-ui-react";
 
 import NoMovieBooked from "../messages/NoMovieBooked.jsx";
 import { logout } from "../../redux/auth/logout";
@@ -20,21 +20,29 @@ const DashboardPage = props => {
                 {props.user.bookings.length == 0 ? (
                     <NoMovieBooked />
                 ) : (
-                    <List>
-                        {props.user.bookings.map(record => {
-                            return (
-                                <ul key={record["_id"]}>
-                                    {Object.keys(record).map((v, i) => {
-                                        return (
-                                            <li key={i}>
-                                                {v + ":" + record[v]}
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            );
-                        })}
-                    </List>
+                    <div>
+                        <Message info>
+                            <Message.Header>
+                                {" "}
+                                Your Movie Bookings{" "}
+                            </Message.Header>
+                        </Message>
+                        <List>
+                            {props.user.bookings.map(record => {
+                                return (
+                                    <ul key={record["_id"]}>
+                                        {Object.keys(record).map((v, i) => {
+                                            return (
+                                                <li key={i}>
+                                                    {v + ":" + record[v]}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                );
+                            })}
+                        </List>
+                    </div>
                 )}
             </div>
         </div>
