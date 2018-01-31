@@ -31,14 +31,14 @@ router.get("/search", (req, res) => {
 });
 
 router.post("/auth/signup", (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body.credentials;
 
     createUser({ email, password })
         .then(userRecord => {
             res.status(200).json({ user: userRecord.toValidAuthJSON() });
         })
         .catch(error => {
-            res.status(400).json({ message: error }); //email already taken
+            res.status(400).json({ message: "EMAIL IN USE..." }); //email already taken
         });
 });
 

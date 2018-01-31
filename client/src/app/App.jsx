@@ -6,6 +6,8 @@ import { Provider } from "react-redux";
 import HomePage from "./components/pages/HomePage.jsx";
 import LoginPage from "./components/pages/LoginPage.jsx";
 import DashboardPage from "./components/pages/DashboardPage.jsx";
+import SignupPage from "./components/pages/SignupPage.jsx";
+
 import UserRoute from "./components/routes/UserRoute.jsx";
 import GuestRoute from "./components/routes/GuestRoute.jsx";
 
@@ -27,6 +29,12 @@ const App = ({ location }) => (
             path="/login"
             exact
             component={LoginPage}
+        />
+        <GuestRoute
+            location={location}
+            path="/signup"
+            exact
+            component={SignupPage}
         />
         <UserRoute
             location={location}

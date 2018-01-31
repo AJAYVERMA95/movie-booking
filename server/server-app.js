@@ -13,9 +13,12 @@ app.set("PORT", process.env.PORT);
 app.use(morganLog("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "../", "public")));
-
 app.use("/api", api);
+
+app.use(express.static(path.join(__dirname, "../", "public")));
+app.all("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../", "public", "index.html"));
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
