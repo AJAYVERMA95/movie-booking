@@ -17,7 +17,7 @@ export const createUser = ({ email, password }) => {
     const newUser = new User({
         Email: email
     });
-    console.log(newUser);
+    // console.log(newUser);
 
     newUser.setPassword(password);
     return newUser.save();
@@ -38,7 +38,7 @@ export const findUserByEmail = Email => {
 };
 
 export const findReviewByMovie = Movie => {
-    return Review.find({ Movie }).limit(10);
+    return Review.findOne({ Movie }).limit(10);
 };
 
 export const findShowByMovie = Movie => {

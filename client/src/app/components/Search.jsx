@@ -74,7 +74,7 @@ class SearchComponent extends React.Component {
                             showNoResults={true}
                             fluid={true}
                             resultRenderer={this.viewItem}
-                            {...this.props}
+                            // {...this.props}
                         />
                     </Grid.Column>
                 </Grid>

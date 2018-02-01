@@ -17,7 +17,7 @@ router.get("/search", (req, res) => {
 
     searchMovie(title)
         .then(movieList => {
-            if (movieList.length) res.status(200).json({result:movieList});
+            if (movieList.length) res.status(200).json({ result: movieList });
             else
                 res.status(400).json({
                     message: "NO SUCH MOVIE EXISTS...!!"
@@ -66,7 +66,7 @@ router.get("/review/:movie", (req, res) => {
 
     findReviewByMovie(movie)
         .then(movieList => {
-            res.status(200).json(movieList);
+            res.status(200).json({ result: movieList });
         })
         .catch(err => {
             res.status(404).json({
@@ -80,7 +80,7 @@ router.get("/shows/:movie", (req, res) => {
 
     findShowByMovie(movie)
         .then(showList => {
-            res.status(200).json(showList);
+            res.status(200).json({ result: showList });
         })
         .catch(err => {
             res.status(404).json({

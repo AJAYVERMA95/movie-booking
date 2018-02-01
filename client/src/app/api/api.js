@@ -13,6 +13,10 @@ export default {
         search: query =>
             axios.get("/api/search?title=" + query.title).then(res => {
                 return res.data.result;
+            }),
+        review: Title =>
+            axios.get("/api/review/" + Title).then(res => {
+                return res.data.result ? res.data.result.UserReviews : [];
             })
     }
 };

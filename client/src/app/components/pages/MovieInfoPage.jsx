@@ -2,25 +2,60 @@ import React from "react";
 import { connect } from "react-redux";
 import { List, Button, Message } from "semantic-ui-react";
 
-import NoMovieBooked from "../messages/NoMovieBooked.jsx";
+import Review from "../Review.jsx";
+import api from "../../api/api.js";
 
-const MovieInfoPage = props => {
-    return (
-        <div>
-            <h1>Movie Info Page</h1>
-            <Message info>
-                <Message.Header> {props.movieData.Title} </Message.Header>
-                {Object.keys(props.movieData).map((record, i) => {
-                    return (
-                        <li key={i}>
-                            <p>{record + ":" + props.movieData[record]}</p>
-                        </li>
-                    );
-                })}
-            </Message>
-        </div>
-    );
-};
+class MovieInfoPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            MovieReviews: []
+        };
+    }
+
+    componentWillMount() {
+        api.user.review(this.props.movieData.Title).then(MovieReviews => {
+            console.log(MovieReviews);
+            this.setState({ MovieReviews });
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        api.user.review(nextProps.movieData.Title).then(MovieReviews => {
+            console.log(MovieReviews);
+            this.setState({ MovieReviews });
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Movie Info Page</h1>
+                <Message info>
+                    <Message.Header>
+                        {" "}
+                        {this.props.movieData.Title}{" "}
+                    </Message.Header>
+                    {Object.keys(this.props.movieData).map((record, i) => {
+                        return (
+                            <li key={i}>
+                                <p>
+                                    {record +
+                                        ":" +
+                                        this.props.movieData[record]}
+                                </p>
+                            </li>
+                        );
+                    })}
+                    <Review
+                        Title={this.props.movieData.Title}
+                        MovieReviews={this.state.MovieReviews}
+                    />
+                </Message>
+            </div>
+        );
+    }
+}
 
 function mapStateToProps(state) {
     return {
