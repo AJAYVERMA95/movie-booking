@@ -13,14 +13,15 @@ class SearchComponent extends React.Component {
             isLoading: false,
             value: "",
             results: [],
-            redirect: false
+            redirect: false,
+            Title: ""
         };
     }
 
     handleResultSelect = (e, { result }) => {
         console.log(result);
         this.props.movieInfo(result);
-        this.setState({ value: result.Title, redirect: true });
+        this.setState({ Title: result.Title, value: "", redirect: true });
     };
 
     handleSearchChange = (e, { value }) => {
@@ -62,7 +63,9 @@ class SearchComponent extends React.Component {
         return (
             <div>
                 <br />
-                {this.state.redirect && <Redirect push to="/movie/info" />}
+                {this.state.redirect && (
+                    <Redirect push to={"/" + this.state.Title + "/info"} />
+                )}
                 <Grid>
                     <Grid.Column width={8}>
                         <Search
@@ -74,7 +77,8 @@ class SearchComponent extends React.Component {
                             showNoResults={true}
                             fluid={true}
                             resultRenderer={this.viewItem}
-                            // {...this.props}
+                            size="large"
+                            // {...this.props   }
                         />
                     </Grid.Column>
                 </Grid>

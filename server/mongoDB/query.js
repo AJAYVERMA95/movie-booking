@@ -42,7 +42,7 @@ export const findReviewByMovie = Movie => {
 };
 
 export const findShowByMovie = Movie => {
-    return Theatre.find({ "Movie.Name": Movie });
+    return Theatre.find({ Movie });
 };
 
 export const getSeatDoc = (TheatreName, MovieName, ShowTime) => {

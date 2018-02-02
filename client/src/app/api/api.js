@@ -17,6 +17,12 @@ export default {
         review: Title =>
             axios.get("/api/review/" + Title).then(res => {
                 return res.data.result ? res.data.result.UserReviews : [];
+            }),
+        theatres: Title =>
+            axios.get("/api/shows/" + Title).then(res => {
+                // console.log(res.data);
+
+                return res.data.result;
             })
     }
 };

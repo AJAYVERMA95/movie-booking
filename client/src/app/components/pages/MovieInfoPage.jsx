@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { List, Button, Message } from "semantic-ui-react";
 
 import Review from "../Review.jsx";
@@ -52,6 +53,11 @@ class MovieInfoPage extends React.Component {
                         MovieReviews={this.state.MovieReviews}
                     />
                 </Message>
+                <Link to={"/" + this.props.movieData.Title + "/book"}>
+                    <Button primary>BOOK MOVIE</Button>
+                </Link>
+                <br />
+                <br />
             </div>
         );
     }
