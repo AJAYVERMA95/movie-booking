@@ -89,8 +89,8 @@ router.get("/shows/:movie", (req, res) => {
         });
 });
 
-router.post("/book", (req, res) => {
-    const { email, movie, theatre, showTime } = req.body;
+router.post("/booking/confirm", (req, res) => {
+    const { email, movie, theatre, showTime } = req.body.bookingData;
 
     getSeatDoc(theatre, movie, showTime)
         .then(doc => {
@@ -108,7 +108,7 @@ router.post("/book", (req, res) => {
                     updateUserBookings(email, doc[0])
                         .then(updoc => {
                             res.status(200).json({
-                                message: "Congrats...Movie Booked"
+                                user: updoc.toValidAuthJSON()
                             });
                         })
                         .catch(error => {

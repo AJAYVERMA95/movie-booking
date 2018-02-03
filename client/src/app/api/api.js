@@ -20,9 +20,11 @@ export default {
             }),
         theatres: Title =>
             axios.get("/api/shows/" + Title).then(res => {
-                // console.log(res.data);
-
                 return res.data.result;
+            }),
+        confirmBooking: bookingData =>
+            axios.post("/api/booking/confirm", { bookingData }).then(res => {
+                return res.data.user;
             })
     }
 };

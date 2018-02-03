@@ -1,7 +1,11 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Button, Message, Segment, Divider } from "semantic-ui-react";
+import { connect } from "react-redux";
 
-import api from "../../api/api.js";
+import { confirmBooking } from "../../redux/auth/cofirmBooking";
+import theatrePreference from "../../redux/auth/theatrePreference";
+import api from "../../api/api";
 
 class BookingsPage extends React.Component {
     constructor(props) {
@@ -9,29 +13,36 @@ class BookingsPage extends React.Component {
 
         this.state = {
             AllTheatres: [],
-            Title: props.match.params.movie,
-            loading: false
+            Title: props.match.params.movie
         };
     }
 
     componentWillMount() {
         api.user.theatres(this.state.Title).then(AllTheatres => {
-            console.log(AllTheatres);
             this.setState({ AllTheatres });
         });
     }
 
-    handleOnClick(record) {}
-    // componentWillReceiveProps(nextProps) {
-    //     api.user.review(nextProps.movieData.Title).then(MovieReviews => {
-    //         console.log(MovieReviews);
-    //         this.setState({ MovieReviews });
-    //     });
-    // }
+    handleOnClick(record) {
+        if (this.props.isAuthenticated) {
+            const bookingData = {
+                email: this.props.user.email,
+                movie: record.Movie,
+                theatre: record.Name,
+                showTime: record.ShowTime
+            };
+            this.props
+                .confirmBooking(bookingData)
+                .then(() => this.props.history.push("/dashboard"));
+        } else {
+            this.props.theatrePreference(record);
+            this.props.history.push("/");
+        }
+    }
 
     render() {
         return (
-            <div>
+            <div ref={node => (this.unmountSection = node)}>
                 <h1>Theatre Info Page</h1>
                 <Message info>
                     <Message.Header>
@@ -58,7 +69,9 @@ class BookingsPage extends React.Component {
                                                 record
                                             )}
                                         >
-                                            Click to confirm Booking
+                                            {this.props.isAuthenticated
+                                                ? "Click to confirm Booking"
+                                                : "Login/Signup"}
                                         </Button>
                                     ) : (
                                         <Button
@@ -81,11 +94,13 @@ class BookingsPage extends React.Component {
     }
 }
 
-// function mapStateToProps(state) {
-//     return {
-//         movieData: state.movie
-//     };
-// }
+function mapStateToProps(state) {
+    return {
+        isAuthenticated: !!state.user.token,
+        user: state.user
+    };
+}
 
-// export default connect(mapStateToProps)(MovieInfoPage);
-export default BookingsPage;
+export default connect(mapStateToProps, { confirmBooking, theatrePreference })(
+    BookingsPage
+);

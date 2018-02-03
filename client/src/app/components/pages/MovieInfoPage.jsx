@@ -16,14 +16,12 @@ class MovieInfoPage extends React.Component {
 
     componentWillMount() {
         api.user.review(this.props.movieData.Title).then(MovieReviews => {
-            console.log(MovieReviews);
             this.setState({ MovieReviews });
         });
     }
 
     componentWillReceiveProps(nextProps) {
         api.user.review(nextProps.movieData.Title).then(MovieReviews => {
-            console.log(MovieReviews);
             this.setState({ MovieReviews });
         });
     }

@@ -14,4 +14,5 @@ export const login = credentials => dispatch =>
     api.user.login(credentials).then(user => {
         localStorage.userJWToken = user.token;
         dispatch(userLoggedIn(user));
+        return user;
     });

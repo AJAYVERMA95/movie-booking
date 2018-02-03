@@ -19,7 +19,6 @@ class SearchComponent extends React.Component {
     }
 
     handleResultSelect = (e, { result }) => {
-        console.log(result);
         this.props.movieInfo(result);
         this.setState({ Title: result.Title, value: "", redirect: true });
     };

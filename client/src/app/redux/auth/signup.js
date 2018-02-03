@@ -14,4 +14,5 @@ export const signup = credentials => dispatch =>
     api.user.signup(credentials).then(user => {
         localStorage.userJWToken = user.token;
         dispatch(userSignedUp(user));
+        return user;
     });

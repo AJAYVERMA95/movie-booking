@@ -2,12 +2,27 @@ import React from "react";
 import { connect } from "react-redux";
 import LoginForm from "../forms/LoginForm.jsx";
 import { login } from "../../redux/auth/login.js";
+import { confirmBooking } from "../../redux/auth/cofirmBooking.js";
 
 class LoginPage extends React.Component {
-
     submit(data) {
-        console.log(data);
-        return this.props.login(data).then(() => this.props.history.push("/dashboard"));
+        if (this.props.isTheatrePrefAvailable) {
+            return this.props.login(data).then(user => {
+                const theatrePref = {
+                    email: user.email,
+                    movie: this.props.theatreRecord.Movie,
+                    theatre: this.props.theatreRecord.Name,
+                    showTime: this.props.theatreRecord.ShowTime
+                };
+
+                this.props
+                    .confirmBooking(theatrePref)
+                    .then(() => this.props.history.push("/dashboard"));
+            });
+        } else
+            this.props.login(data).then(() => {
+                this.props.history.push("/dashboard");
+            });
     }
 
     render() {
@@ -20,12 +35,11 @@ class LoginPage extends React.Component {
     }
 }
 
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         login: data => {
-//             dispatch(login(data));
-//         }
-//     };
-// };
+const mapStateToProps = state => {
+    return {
+        isTheatrePrefAvailable: !!state.movie.userTheatrePref,
+        theatreRecord: state.movie.userTheatrePref
+    };
+};
 
-module.exports = connect(null, { login })(LoginPage);
+module.exports = connect(mapStateToProps, { login, confirmBooking })(LoginPage);
