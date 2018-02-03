@@ -20,7 +20,7 @@ class SignupPage extends React.Component {
                     .then(() => this.props.history.push("/dashboard"));
             });
         } else
-            this.props.signup(data).then(() => {
+            return this.props.signup(data).then(() => {
                 this.props.history.push("/dashboard");
             });
     }
